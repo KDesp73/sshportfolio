@@ -73,7 +73,7 @@ func main() {
 	}
 	defer f.Close()
 
-	p := tea.NewProgram(tui.NewModel(), tea.WithAltScreen(), tea.WithMouseCellMotion())
+	p := tea.NewProgram(tui.NewModel(), tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		log.Fatalf("%v\n", err)
 	}
