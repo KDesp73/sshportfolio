@@ -8,6 +8,9 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+var (
+	titleStyle = lipgloss.NewStyle().Background(lipgloss.Color("57")).PaddingLeft(1).PaddingRight(1)
+)
 
 
 func home(m Model) string {
@@ -38,7 +41,6 @@ func projects(m Model) string {
 
 	maxWidth := 60
 
-	titleStyle := lipgloss.NewStyle().Background(lipgloss.Color("57")).PaddingLeft(1).PaddingRight(1)
 	b.WriteString(fmt.Sprintf("%s\n\n%s\n\n", titleStyle.Render(project.Title), wrapString(project.Description, maxWidth)))
 
 	b.WriteString(lipgloss.JoinVertical(lipgloss.Left,
@@ -57,11 +59,29 @@ func projects(m Model) string {
 }
 
 func about(m Model) string {
-	return m.pages[ABOUT]
+	var b strings.Builder
+	
+	b.WriteString("  " + titleStyle.Render("Hello there!") + "\n\n")
+
+	b.WriteString(lipgloss.JoinVertical(lipgloss.Center,
+		wrapString("My name is Konstantinos Despoinidis and I am 21 years old", 60),
+		wrapString("I am currently studying Information and Electronic Engineering at the International Hellenic University", 60),
+	))
+
+	return b.String()
 }
 
 func contact(m Model) string {
-	return m.pages[CONTACT]
+	var b strings.Builder
+
+	b.WriteString("  " + titleStyle.Bold(true).Render("Reach me @")+"\n\n\n")
+
+	b.WriteString(lipgloss.JoinVertical(lipgloss.Left,
+		"  Github: https://github.com/KDesp73\n",
+		"  Email: despoinidisk@gmail.com\n",
+	))
+
+	return b.String()
 }
 
 func page(m Model) string {

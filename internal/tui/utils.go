@@ -55,7 +55,7 @@ func tux() string {
 "      JS^\\__/  qKL\n" +
 "     dZP        qKRb\n" +
 "    dZP          qKKb\n" +
-"   fZP            SMMb\n" +
+"   hjm            SMMb\n" +
 "   HZM            MMMM\n" +
 "   FqM            MMMM\n" +
 " __| \".        |\\dS\"qML\n" +

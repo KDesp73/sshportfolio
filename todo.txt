@@ -1,5 +1,9 @@
 TODO: add loading screen
-TODO: about
-TODO: contact
+TODO: send mail through the app
+TODO: run through ssh
+TODO: deploy somewhere
+TODO: textfield input game
 DONE: projects
 DONE: home
+DONE: contact
+DONE: about
