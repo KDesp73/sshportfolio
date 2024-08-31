@@ -6,7 +6,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
-	"sshapp/internal/tui"
+	"sshportfolio/internal/tui"
 	"syscall"
 	"time"
 

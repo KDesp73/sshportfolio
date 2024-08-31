@@ -2,7 +2,7 @@ package tui
 
 import (
 	"fmt"
-	proj "sshapp/internal/projects"
+	proj "sshportfolio/internal/projects"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"

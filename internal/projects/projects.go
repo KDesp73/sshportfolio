@@ -3,7 +3,7 @@ package projects
 import (
 	"fmt"
 	"os"
-	"sshapp/internal/files"
+	"sshportfolio/internal/files"
 	"gopkg.in/yaml.v2"
 )
 

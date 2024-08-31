@@ -1,4 +1,4 @@
-module sshapp
+module sshportfolio 
 
 go 1.23.0
 

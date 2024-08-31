@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	proj "sshapp/internal/projects"
+	proj "sshportfolio/internal/projects"
 
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/paginator"
