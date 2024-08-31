@@ -84,7 +84,7 @@ func NewModel() Model {
 	}
 
 	model.emailContent = textarea.New()
-	model.emailContent.Placeholder = "Content..."
+	model.emailContent.Placeholder = "Body"
 
 	return model
 }
@@ -107,6 +107,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, m.keys.Up) || key.Matches(msg, m.keys.Down):
+			if m.currentPage != CONTACT {
+				break
+			}
 			s := msg.String()
 
 			// Cycle indexes
@@ -172,9 +175,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	m.table, cmd = m.table.Update(msg)
 	cmds = append(cmds, cmd)
-	m.emailContent, cmd = m.emailContent.Update(msg)
-	cmds = append(cmds, cmd)
-	cmds = append(cmds, m.updateInputs(msg))
+	if m.currentPage == CONTACT {
+		m.emailContent, cmd = m.emailContent.Update(msg)
+		cmds = append(cmds, cmd)
+		cmds = append(cmds, m.updateInputs(msg))
+	}
 	
 	return m, tea.Batch(cmds...)
 }
