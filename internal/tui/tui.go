@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	INDEX = 0
+	HOME = 0
 	PROJECTS = 1
 	ABOUT = 2
 	CONTACT = 3
@@ -36,7 +36,7 @@ type Model struct {
 
 func NewModel() Model {
 	pages := []string{
-		"Index",
+		"Home",
 		"Projects",
 		"About",
 		"Contact",

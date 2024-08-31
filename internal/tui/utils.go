@@ -45,12 +45,31 @@ func newPaginator(len, perPage int ) paginator.Model {
 	return p
 }
 
+func tux() string {
+	return "" +
+"                           _nnnn_                      \n" +
+"                          dGGGGMMb     ,\"\"\"\"\"\"\"\"\"\"\"\"\"\".\n" +
+"                         @p~qp~~qMb    | Hello World! |\n" +
+"                         M|@||@) M|   _;..............'\n" +
+"        @,----.JM| -'\n" +
+"      JS^\\__/  qKL\n" +
+"     dZP        qKRb\n" +
+"    dZP          qKKb\n" +
+"   fZP            SMMb\n" +
+"   HZM            MMMM\n" +
+"   FqM            MMMM\n" +
+" __| \".        |\\dS\"qML\n" +
+" |    `.       | `' \\Zq\n" +
+"_)      \\.___.,|     .'\n" +
+"\\____   )MMMMMM|   .'\n" +
+"     `-'       `--'\n"
+}
+
 func newTable() table.Model {
 	columns := []table.Column{
 		{Title: "Name", Width: 15},
 		{Title: "Language", Width: 10},
-		{Title: "Description", Width: 20},
-		{Title: "License", Width: 10},
+		{Title: "Description", Width: 35},
 	}
 
 	pool, _ := proj.LoadProjects()
@@ -59,7 +78,7 @@ func newTable() table.Model {
 
 	for _, project := range pool.Items {
 		rows = append(rows, table.Row{
-			project.Title, project.Language, project.Description, project.License,
+			project.Title, project.Language, project.Description,
 		})
 	}
 

@@ -1,0 +1,5 @@
+TODO: add loading screen
+TODO: home
+TODO: about
+TODO: contact
+DONE: projects

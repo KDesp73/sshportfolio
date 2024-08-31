@@ -8,8 +8,18 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-func index(m Model) string {
-	return m.pages[INDEX]
+
+
+func home(m Model) string {
+	var b strings.Builder
+	
+	b.WriteString(tux())
+	b.WriteString("\n\n")
+
+	b.WriteString("  " + lipgloss.NewStyle().Foreground(lipgloss.Color("57")).Bold(true).Render("Welcome") + " to my portfolio!\n\n")
+	b.WriteString("  Press `tab` to switch pages. For more information on the controls of this app press `?`")
+
+	return b.String()
 }
 
 func projects(m Model) string {
@@ -21,7 +31,7 @@ func projects(m Model) string {
 	var b strings.Builder
 	
 	b.WriteString(_table(m))
-	b.WriteString("\n\n")
+	b.WriteString("\n\n\n")
 	
 	pool, _ := proj.LoadProjects()
 	project := pool.Items[pool.TitleMap[m.table.SelectedRow()[0]]]
@@ -56,8 +66,8 @@ func contact(m Model) string {
 
 func page(m Model) string {
 	switch m.currentPage {
-	case INDEX:
-		return index(m)
+	case HOME:
+		return home(m)
 	case PROJECTS:
 		return projects(m)
 	case ABOUT:
