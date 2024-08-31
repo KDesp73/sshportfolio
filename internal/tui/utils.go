@@ -5,11 +5,13 @@ import (
 	"os"
 	"strings"
 
+	"sshportfolio/internal/email"
 	proj "sshportfolio/internal/projects"
 
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/paginator"
 	"github.com/charmbracelet/bubbles/table"
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
 
@@ -128,5 +130,22 @@ func wrapString(s string, width int) string {
     }
 
     return strings.Join(wrapped, "\n") // Join the wrapped lines with newlines
+}
+
+func (m *Model) updateInputs(msg tea.Msg) tea.Cmd {
+	cmds := make([]tea.Cmd, len(m.emailInputs))
+
+	for i := range m.emailInputs {
+		m.emailInputs[i], cmds[i] = m.emailInputs[i].Update(msg)
+	}
+
+	return tea.Batch(cmds...)
+}
+
+func Mail(model Model) error {
+	resultChan := make(chan error)
+	go email.SendEmail(model.emailInputs[0].Value(), model.emailInputs[1].Value(), model.emailContent.Value(), resultChan)
+
+	return <-resultChan
 }
 

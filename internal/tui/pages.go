@@ -8,29 +8,19 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-var (
-	titleStyle = lipgloss.NewStyle().Background(lipgloss.Color("57")).PaddingLeft(1).PaddingRight(1)
-)
-
-
 func home(m Model) string {
 	var b strings.Builder
 	
 	b.WriteString(tux())
 	b.WriteString("\n\n")
 
-	b.WriteString("  " + lipgloss.NewStyle().Foreground(lipgloss.Color("57")).Bold(true).Render("Welcome") + " to my portfolio!\n\n")
+	b.WriteString("  " + accentForegroundStyle.Bold(true).Render("Welcome") + " to my portfolio!\n\n")
 	b.WriteString("  Press `tab` to switch pages. For more information on the controls of this app press `?`")
 
 	return b.String()
 }
 
 func projects(m Model) string {
-	var (
-		boldStyle = lipgloss.NewStyle().Bold(true)
-		underlineStyle = lipgloss.NewStyle().Underline(true)
-	)
-	
 	var b strings.Builder
 	
 	b.WriteString(_table(m))
@@ -80,6 +70,31 @@ func contact(m Model) string {
 		"  Github: https://github.com/KDesp73\n",
 		"  Email: despoinidisk@gmail.com\n",
 	))
+
+	b.WriteString("\n\n")
+
+
+	button := &blurredButton
+	if m.emailFocusIndex == len(m.emailInputs)+1 {
+		button = &focusedButton
+	}
+
+	b.WriteString(inputBorderStyle.PaddingLeft(1).PaddingRight(1).Render(lipgloss.JoinVertical(lipgloss.Center,
+		titleStyle.Render("Send me an email!") + "\n",
+		m.emailInputs[0].View() + "\n",
+		m.emailInputs[1].View() + "\n",
+		m.emailContent.View() + "\n",
+		fmt.Sprintf("%s", *button),
+	)))
+
+	if m.emailSubmitPressed {
+		b.WriteString("\n\n")
+		if m.EmailError == nil {
+			b.WriteString(successStyle.Render("Email sent"))
+		} else {
+			b.WriteString(failureStyle.Render(m.EmailError.Error()))
+		}
+	}
 
 	return b.String()
 }

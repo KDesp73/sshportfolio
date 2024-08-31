@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/bubbles/key"
-	"github.com/charmbracelet/lipgloss"
 )
 
 type keyMap struct {
@@ -44,21 +43,21 @@ var keys = keyMap{
 		key.WithHelp("shift+tab", "prev spage"),
 	),
 	Up: key.NewBinding(
-		key.WithKeys("up", "k"),
-		key.WithHelp("↑/k", "move up"),
+		key.WithKeys("up"),
+		key.WithHelp("↑", "move up"),
 	),
 	Down: key.NewBinding(
-		key.WithKeys("down", "j"),
-		key.WithHelp("↓/j", "move down"),
+		key.WithKeys("down"),
+		key.WithHelp("↓", "move down"),
 	),
-	Left: key.NewBinding(
-		key.WithKeys("left", "h"),
-		key.WithHelp("←/h", "move left"),
-	),
-	Right: key.NewBinding(
-		key.WithKeys("right", "l"),
-		key.WithHelp("→/l", "move right"),
-	),
+	// Left: key.NewBinding(
+	// 	key.WithKeys("left", "h"),
+	// 	key.WithHelp("←/h", "move left"),
+	// ),
+	// Right: key.NewBinding(
+	// 	key.WithKeys("right", "l"),
+	// 	key.WithHelp("→/l", "move right"),
+	// ),
 	Help: key.NewBinding(
 		key.WithKeys("?"),
 		key.WithHelp("?", "toggle help"),
@@ -70,32 +69,16 @@ var keys = keyMap{
 }
 
 func _navbar(m Model) string {
-	width := 10
-
-	titleStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("57")).
-		Blink(true)
-
-	activeStyle := lipgloss.NewStyle().
-		Bold(true).
-		Foreground(lipgloss.Color("#ffffff")).
-		Width(width)
-
-	inactiveStyle := lipgloss.NewStyle().
-		Bold(false).
-		Foreground(lipgloss.Color("#585858")).
-		Width(width)
-	
 	var b strings.Builder
 	b.WriteString("\n┌")
 	b.WriteString(strings.Repeat("─", len(m.title) + 2)) // title
 	for range m.pages {
 		b.WriteString("┬")
-		b.WriteString(strings.Repeat("─", width+2))
+		b.WriteString(strings.Repeat("─", navbarItemWidth+2))
 	}
 	b.WriteString("┐\n")
 
-	b.WriteString(fmt.Sprintf(" │ %s │ ", titleStyle.Render(m.title)))
+	b.WriteString(fmt.Sprintf(" │ %s │ ", accentForegroundStyle.Render(m.title)))
 	for i, page := range m.pages {
 		if m.currentPage == i {
 			b.WriteString(activeStyle.Render(page) + " │ ")
@@ -107,7 +90,7 @@ func _navbar(m Model) string {
 	b.WriteString(strings.Repeat("─", len(m.title) + 2)) // title
 	for range m.pages {
 		b.WriteString("┴")
-		b.WriteString(strings.Repeat("─", width+2))
+		b.WriteString(strings.Repeat("─", navbarItemWidth+2))
 	}
 	b.WriteString("┘")
 
