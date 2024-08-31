@@ -106,7 +106,7 @@ func newTable() table.Model {
 	return t
 }
 
-func wrapString(s string, width int) string {
+func wrapString(s string, width int, indent... int) string {
     var wrapped []string
     words := strings.Fields(s) // Split the string into words
     currentLine := ""
@@ -115,7 +115,11 @@ func wrapString(s string, width int) string {
         // Check if adding the next word would exceed the width
         if len(currentLine)+len(word)+1 > width {
             wrapped = append(wrapped, currentLine) // Add the current line to the wrapped lines
-            currentLine = word // Start a new line with the current word
+			if len(indent) > 0 {
+				currentLine = strings.Repeat(" ", indent[0]) + word // Start a new line with the current word
+			} else {
+				currentLine = word // Start a new line with the current word
+			}
         } else {
             if currentLine != "" {
                 currentLine += " " // Add a space before the next word

@@ -31,7 +31,7 @@ func projects(m Model) string {
 
 	maxWidth := 60
 
-	b.WriteString(fmt.Sprintf("%s\n\n%s\n\n", titleStyle.Render(project.Title), wrapString(project.Description, maxWidth)))
+	b.WriteString(fmt.Sprintf("%s\n\n%s\n\n", titleStyle.Render(project.Title), wrapString(project.Description, maxWidth, 0)))
 
 	b.WriteString(lipgloss.JoinVertical(lipgloss.Left,
 		fmt.Sprintf("Language: %s", boldStyle.Render(project.Language)),
@@ -48,14 +48,18 @@ func projects(m Model) string {
 	return b.String()
 }
 
+func paragraph(text string) string {
+	return "• " + wrapString(text, 60, 2) + "\n"
+}
+
 func about(m Model) string {
 	var b strings.Builder
 	
 	b.WriteString("  " + titleStyle.Render("Hello there!") + "\n\n")
 
-	b.WriteString(lipgloss.JoinVertical(lipgloss.Center,
-		wrapString("My name is Konstantinos Despoinidis and I am 21 years old", 60),
-		wrapString("I am currently studying Information and Electronic Engineering at the International Hellenic University", 60),
+	b.WriteString(lipgloss.JoinVertical(lipgloss.Left,
+		paragraph("My name is Konstantinos Despoinidis and I am 21 years old"),
+		paragraph("I am currently studying Information and Electronic Engineering at the International Hellenic University"),
 	))
 
 	return b.String()
@@ -66,7 +70,7 @@ func contact(m Model) string {
 
 	b.WriteString("  " + titleStyle.Bold(true).Render("Reach me @")+"\n\n\n")
 
-	b.WriteString(lipgloss.JoinVertical(lipgloss.Left,
+	b.WriteString(lipgloss.JoinVertical(lipgloss.Center,
 		"  Github: https://github.com/KDesp73\n",
 		"  Email: despoinidisk@gmail.com\n",
 	))
@@ -79,7 +83,7 @@ func contact(m Model) string {
 		button = &focusedButton
 	}
 
-	b.WriteString(inputBorderStyle.PaddingLeft(1).PaddingRight(1).Render(lipgloss.JoinVertical(lipgloss.Center,
+	b.WriteString(inputBorderStyle.MarginLeft(2).PaddingLeft(1).PaddingRight(1).Render(lipgloss.JoinVertical(lipgloss.Center,
 		titleStyle.Render("Send me an email!") + "\n",
 		m.emailInputs[0].View() + "\n",
 		m.emailInputs[1].View() + "\n",

@@ -71,13 +71,12 @@ func NewModel() Model {
 			t.Placeholder = "Name"
 			t.Focus()
 			t.PromptStyle = focusedStyle
-			t.TextStyle = focusedStyle
 			t.CharLimit = 64
-			t.Prompt = ""
+			t.Prompt = "# "
 		case 1:
 			t.Placeholder = "Email"
 			t.CharLimit = 64
-			t.Prompt = ""
+			t.Prompt = "✉  "
 		}
 
 		model.emailInputs[i] = t
@@ -85,6 +84,9 @@ func NewModel() Model {
 
 	model.emailContent = textarea.New()
 	model.emailContent.Placeholder = "Body"
+	// model.emailContent.FocusedStyle = textarea.Style{
+	// 	Prompt: focusedStyle,
+	// }
 
 	return model
 }
@@ -130,10 +132,20 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if i == m.emailFocusIndex {
 					if i == len(m.emailInputs) {
 						inputCmds[i] = m.emailContent.Focus()
+
+						m.emailContent.FocusedStyle = textarea.Style{
+							Prompt: focusedStyle,
+							Base: m.emailContent.FocusedStyle.Base,
+							CursorLine: m.emailContent.FocusedStyle.CursorLine,
+							CursorLineNumber: m.emailContent.FocusedStyle.CursorLineNumber,
+							EndOfBuffer: m.emailContent.FocusedStyle.EndOfBuffer,
+							LineNumber: m.emailContent.FocusedStyle.LineNumber,
+							Placeholder: m.emailContent.FocusedStyle.Placeholder,
+							Text: m.emailContent.FocusedStyle.Text,
+						}
 					} else {
 						inputCmds[i] = m.emailInputs[i].Focus()
 						m.emailInputs[i].PromptStyle = focusedStyle
-						m.emailInputs[i].TextStyle = focusedStyle
 
 					}
 					continue
