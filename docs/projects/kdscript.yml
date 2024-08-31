@@ -1,0 +1,9 @@
+title: kdscript
+
+description: An interpreted scripting language inspired by the syntax of python, bash and assembly 
+
+license: GPL-3.0
+
+language: Python
+
+link: https://github.com/KDesp73/kdscript

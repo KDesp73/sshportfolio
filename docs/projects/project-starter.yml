@@ -1,0 +1,9 @@
+title: project-starter.nvim
+
+description: A neovim plugin for creating template project structures for various languages 
+
+license: The Unlicense
+
+language: Lua
+
+link: https://github.com/KDesp73/project-starter.nvim

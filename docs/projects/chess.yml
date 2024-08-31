@@ -1,0 +1,9 @@
+title: Chess
+
+description: Two player Chess written in C++ with CLI and GUI 
+
+language: C++
+
+license: MIT
+
+link: https://github.com/KDesp73/Chess

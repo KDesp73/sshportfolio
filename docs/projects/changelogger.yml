@@ -1,0 +1,9 @@
+title: changelogger
+
+description: A cli tool to help you keep a changelog in all your projects 
+
+link: https://github.com/KDesp73/changelogger
+
+license: MIT
+
+language: C

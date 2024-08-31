@@ -67,7 +67,13 @@ func sshStuff(){
 }
 
 func main() {
-	p := tea.NewProgram(tui.NewModel(), tea.WithAltScreen())
+	f, err := tea.LogToFile("debug.log", "debug")
+	if err != nil {
+		log.Fatalf("ERRO: %w", err)
+	}
+	defer f.Close()
+
+	p := tea.NewProgram(tui.NewModel(), tea.WithAltScreen(), tea.WithMouseCellMotion())
 	if _, err := p.Run(); err != nil {
 		log.Fatalf("%v\n", err)
 	}
