@@ -23,20 +23,25 @@ const myMail = "kdesp2003@gmail.com"
 func SendEmail(name, email, body string, resultChan chan error) {
 	if strings.TrimSpace(name) == "" {
 		resultChan <- fmt.Errorf("Name is empty")
+		return
 	}
 	if strings.TrimSpace(email) == "" {
 		resultChan <- fmt.Errorf("Email is empty")
+		return
 	}
 	if !isValidEmail(email) {
 		resultChan <- fmt.Errorf("Email is invalid")
+		return
 	}
 	if strings.TrimSpace(body) == "" {
 		resultChan <- fmt.Errorf("Body is empty")
+		return
 	}
 
 	err := godotenv.Load()
 	if err != nil {
 		resultChan <- err
+		return
 	}
 	pass := os.Getenv("GOOGLE_APP_PASSWORD")
 
@@ -61,6 +66,7 @@ func SendEmail(name, email, body string, resultChan chan error) {
 	if err != nil {
 		log.Fatal(err)
 		resultChan <- err
+		return
 	}
 
 	resultChan <- nil

@@ -1,4 +1,4 @@
-all: portfolio
+all: portfolio sshportfolio
 
 portfolio:
 	go build ./cmd/portfolio/portfolio.go
