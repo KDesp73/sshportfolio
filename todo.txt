@@ -1,9 +1,10 @@
 TODO: add loading screen
-TODO: run through ssh
 TODO: deploy somewhere
 TODO: textfield input game
+TODO: mirror website
 DONE: projects
 DONE: home
 DONE: contact
 DONE: about
 DONE: send mail through the app
+DONE: run through ssh
