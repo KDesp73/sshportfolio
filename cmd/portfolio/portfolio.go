@@ -10,7 +10,7 @@ import (
 func main() {
 	f, err := tea.LogToFile("debug.log", "debug")
 	if err != nil {
-		log.Fatalf("ERRO: %w", err)
+		log.Fatalf("ERRO: %v", err)
 	}
 	defer f.Close()
 
