@@ -177,7 +177,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case key.Matches(msg, m.keys.PrevPage):
 			m.currentPage = euMod(m.currentPage-1, len(m.pages))
 		case key.Matches(msg, m.keys.Quit):
-			if m.currentPage == CONTACT && (m.emailContent.Focused() || m.emailInputs[0].Focused() || m.emailInputs[1].Focused()) {
+			if msg.String() == "q" && m.currentPage == CONTACT && (m.emailContent.Focused() || m.emailInputs[0].Focused() || m.emailInputs[1].Focused()) {
 				break
 			}
 			m.quitting = true

@@ -1,6 +1,6 @@
 title: sshportfolio
 
-description: 
+description: My TUI portfolio that can be served through SSH 
 
 language: Go
 
