@@ -14,6 +14,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/wish"
+	"github.com/charmbracelet/wish/activeterm"
+	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
 )
 
@@ -24,20 +26,16 @@ const (
 
 
 
-func sshStuff(){
+func main(){
 	srv, err := wish.NewServer(
 		wish.WithAddress(net.JoinHostPort(host, port)),
 		wish.WithHostKeyPath(".ssh/id_ed25519"),
 		wish.WithMiddleware(
-			func(next ssh.Handler) ssh.Handler {
-				return func(sess ssh.Session) {
-					wish.Println(sess, "Hello, world!")
-					next(sess)
-				}
-			},
+			bubbletea.Middleware(teaHandler),
+			activeterm.Middleware(), // Bubble Tea apps usually require a PTY.
 			logging.Middleware(),
-			
 		),
+			
 	)
 	if err != nil {
 		log.Error("Could not start server", "error", err)
@@ -66,15 +64,12 @@ func sshStuff(){
 	}
 }
 
-func main() {
-	f, err := tea.LogToFile("debug.log", "debug")
-	if err != nil {
-		log.Fatalf("ERRO: %w", err)
-	}
-	defer f.Close()
+func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
+	// This should never fail, as we are using the activeterm middleware.
+	// pty, _, _ := s.Pty()
+	// renderer := bubbletea.MakeRenderer(s)
+	
+	m := tui.NewModel()
 
-	p := tea.NewProgram(tui.NewModel(), tea.WithAltScreen())
-	if _, err := p.Run(); err != nil {
-		log.Fatalf("%v\n", err)
-	}
+	return m, []tea.ProgramOption{tea.WithAltScreen()}
 }
