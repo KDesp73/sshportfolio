@@ -1,5 +1,6 @@
 .env
 debug.log
 sshportfolio
+portfolio
 .changelog
 .ssh
