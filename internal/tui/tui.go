@@ -69,8 +69,8 @@ func NewModel() Model {
 		switch i {
 		case 0:
 			t.Placeholder = "Name"
-			t.Focus()
 			t.PromptStyle = focusedStyle
+			t.Focus()
 			t.CharLimit = 64
 			t.Prompt = "# "
 		case 1:
@@ -84,9 +84,6 @@ func NewModel() Model {
 
 	model.emailContent = textarea.New()
 	model.emailContent.Placeholder = "Body"
-	// model.emailContent.FocusedStyle = textarea.Style{
-	// 	Prompt: focusedStyle,
-	// }
 
 	return model
 }
@@ -180,6 +177,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case key.Matches(msg, m.keys.PrevPage):
 			m.currentPage = euMod(m.currentPage-1, len(m.pages))
 		case key.Matches(msg, m.keys.Quit):
+			if m.currentPage == CONTACT && (m.emailContent.Focused() || m.emailInputs[0].Focused() || m.emailInputs[1].Focused()) {
+				break
+			}
 			m.quitting = true
 			return m, tea.Quit
 		}
