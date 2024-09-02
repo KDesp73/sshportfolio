@@ -190,7 +190,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			cmds = append(cmds, tea.Batch(inputCmds...))
 		case key.Matches(msg, m.keys.Enter):
-			m.EmailError = nil
 			if m.emailFocusIndex == len(m.emailInputs)+1 && m.currentPage == CONTACT {
 				m.EmailError = Mail(m)
 
