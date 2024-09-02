@@ -1,6 +1,6 @@
 title: kdscript
 
-description: An interpreted scripting language inspired by the syntax of python, bash and assembly 
+description: An interpreted scripting language inspired by the syntax of python, bash and go
 
 license: GPL-3.0
 
