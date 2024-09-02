@@ -23,6 +23,8 @@ const (
 const (
 	padding  = 2
 	maxWidth = 80
+	loadingTick = time.Millisecond * 500
+	loadingStep = 0.25
 )
 
 type tickMsg time.Time
@@ -114,11 +116,12 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tickMsg:
 		if m.progress.Percent() == 1.0 {
+			time.Sleep(time.Millisecond * 200)
 			m.loading = false
 			return m, nil
 		}
 
-		cmd := m.progress.IncrPercent(0.25)
+		cmd := m.progress.IncrPercent(loadingStep)
 		return m, tea.Batch(tickCmd(), cmd)
 	case progress.FrameMsg:
 		progressModel, cmd := m.progress.Update(msg)
@@ -255,7 +258,7 @@ func (m Model) View() string {
 }
 
 func tickCmd() tea.Cmd {
-	return tea.Tick(time.Second*1, func(t time.Time) tea.Msg {
+	return tea.Tick(loadingTick, func(t time.Time) tea.Msg {
 		return tickMsg(t)
 	})
 }
