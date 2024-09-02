@@ -2,9 +2,11 @@ package tui
 
 import (
 	"strings"
+	"time"
 
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
+	"github.com/charmbracelet/bubbles/progress"
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -18,7 +20,12 @@ const (
 	ABOUT = 2
 	CONTACT = 3
 )
+const (
+	padding  = 2
+	maxWidth = 80
+)
 
+type tickMsg time.Time
 type Model struct {
 	title string
 	keys keyMap
@@ -28,10 +35,12 @@ type Model struct {
 	currentPage int
 	quitting bool
 	ready    bool
+	loading bool
 
 	help help.Model
 	table table.Model
 	gameInput textinput.Model
+	progress progress.Model
 
 	emailInputs []textinput.Model
 	emailFocusIndex int
@@ -39,6 +48,7 @@ type Model struct {
 	EmailError error
 	emailSubmitPressed bool
 }
+
 
 
 
@@ -57,6 +67,8 @@ func NewModel() Model {
 		quitting: false,
 		help: help.New(),
 		table: newTable(),
+		progress: progress.New(progress.WithDefaultGradient()),
+		loading: true,
 		emailInputs: make([]textinput.Model, 2),
 	}
 
@@ -89,7 +101,7 @@ func NewModel() Model {
 }
 
 func (m Model) Init() tea.Cmd {
-	return nil
+	return tickCmd()
 }
 
 
@@ -100,9 +112,26 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	)
 
 	switch msg := msg.(type) {
+	case tickMsg:
+		if m.progress.Percent() == 1.0 {
+			m.loading = false
+			return m, nil
+		}
+
+		cmd := m.progress.IncrPercent(0.25)
+		return m, tea.Batch(tickCmd(), cmd)
+	case progress.FrameMsg:
+		progressModel, cmd := m.progress.Update(msg)
+		m.progress = progressModel.(progress.Model)
+		return m, cmd
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
+
+		m.progress.Width = msg.Width - padding*2 - 4
+		if m.progress.Width > maxWidth {
+			m.progress.Width = maxWidth
+		}
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, m.keys.Up) || key.Matches(msg, m.keys.Down):
@@ -200,6 +229,16 @@ func (m Model) View() string {
 	var b strings.Builder
 
 
+	if m.loading {
+		return lipgloss.Place(
+			m.width,
+			m.height,
+			lipgloss.Center,
+			lipgloss.Center,
+			m.progress.View(),
+		)
+	}
+
 	b.WriteString(_navbar(m))
 	b.WriteString("\n\n")
 	b.WriteString(page(m))
@@ -213,4 +252,10 @@ func (m Model) View() string {
 		lipgloss.Top,
 		b.String(),
 	)
+}
+
+func tickCmd() tea.Cmd {
+	return tea.Tick(time.Second*1, func(t time.Time) tea.Msg {
+		return tickMsg(t)
+	})
 }

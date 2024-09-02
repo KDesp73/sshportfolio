@@ -3,10 +3,13 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
+	"fmt"
 	"net"
 	"os"
 	"os/signal"
 	"sshportfolio/internal/tui"
+	"strings"
 	"syscall"
 	"time"
 
@@ -17,16 +20,56 @@ import (
 	"github.com/charmbracelet/wish/activeterm"
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
-)
-
-const (
-	host = "192.168.2.10"
-	port = "23234"
+	"github.com/joho/godotenv"
 )
 
 
+func getHostAndPort() (string, string) {
+	var (
+		host string
+		port string
+		defaultHost = "localhost"
+		defaultPort = "23234"
+		flagHost string 
+		flagPort string
+		envHost string 
+		envPort string	
+	)
+	flag.StringVar(&flagHost, "host", flagHost, "Specify ip to serve")
+	flag.StringVar(&flagPort, "port", flagPort, "Specify port to serve")
+	flag.Parse()
+
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Could not load environment variable: %v", err)
+		os.Exit(1)
+	}
+
+	envHost = os.Getenv("HOST")
+	envPort = os.Getenv("PORT")
+
+	if flagHost != host {
+		host = flagHost
+	} else if strings.TrimSpace(envHost) != "" {
+		host = envHost
+	} else {
+		host = defaultHost
+	}
+
+	if flagPort != port {
+		port = flagPort
+	} else if strings.TrimSpace(envPort) != "" {
+		port = envPort
+	} else {
+		port = defaultPort
+	}
+
+	return host, port
+}
 
 func main(){
+	host, port := getHostAndPort()
+
 	srv, err := wish.NewServer(
 		wish.WithAddress(net.JoinHostPort(host, port)),
 		wish.WithHostKeyPath(".ssh/id_ed25519"),

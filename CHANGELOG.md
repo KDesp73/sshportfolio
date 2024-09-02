@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- Serving app throush ssh
+- Serving app through ssh
 
 
 ## [0.0.2] - 2024-09-01 
