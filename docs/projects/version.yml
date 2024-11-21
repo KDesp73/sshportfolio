@@ -1,0 +1,10 @@
+title: version
+
+description: Small bash script to update your project's version using only one command 
+
+license: MIT
+
+link: https://github.com/KDesp73/version
+
+language: Bash
+
