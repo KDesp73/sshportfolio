@@ -1,0 +1,10 @@
+title: nni
+
+description: Neural Network training interface for the nn library
+
+license: MIT
+
+link: https://github.com/KDesp73/nni
+
+language: C
+
